@@ -19,7 +19,12 @@ message(STATUS "OpenMP_CXX_FLAGS ${OpenMP_CXX_FLAGS}")
 # Set CXX FLAGS
 set(CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS}")
 
-set(SOURCES ${PROJECT_SOURCE_DIR}/src/hello_world.cpp)
-add_executable(hello_world ${SOURCES})
+
+set(CPP_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
+set(SOURCE_LIST hello_world)
+
+foreach(program ${SOURCE_LIST})
+	add_executable(${program} ${CPP_SOURCE_DIR}/${program}.cpp)
+endforeach(program)
 
 INSTALL(TARGETS ${SOURCES} DESTINATION bin)
