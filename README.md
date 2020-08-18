@@ -1,13 +1,30 @@
+<img src="images/bigmac_logo_red.png" height=250>
+
 # BigMac
 BigMac contains a series of CMake variables that facilitate compiling C/C++ code on macOS using the default clang compiler.
 
 ## Installation
+
+### Homebrew
 
 BigMac can be installed using [Homebrew](https://brew.sh/) as follows.
 
 ```bash
 $ brew tap sfarrens/sf
 $ brew install bigmac
+```
+
+### From Source
+
+BigMac can be installed manually as follows.
+
+```bash
+$ git clone https://github.com/sfarrens/bigmac.git
+$ cd bigmac
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make install
 ```
 
 ## Use
@@ -22,18 +39,16 @@ Then use variables provided.
 
 ### BigMac Variables
 
-#### OpenMP Variables
+- `BigMac_CPPFLAGS` : `CPPFLAGS` for external projects (*e.g.* FFTW, NFFT).
+- `BigMac_OPENMP_CFLAGS` : `OPENMP_CFLAGS` for external projects (*e.g.* FFTW, NFFT).
+
+### OpenMP Variables
 
 - `OpenMP_INCLUDE_PATH` : Path to OpenMP headers
 - `OpenMP_LIB_PATH` : Path to OpenMP Libraries
 - `OpenMP_CXX_FLAGS` : OpenMP Flags
 - `OpenMP_CXX_LIB_NAMES` : OpenMP Library Names
 - `OpenMP_CXX_LIBRARIES` : OpenMP Libraries
-
-#### FFTW Variables
-
-- `FFTW_OMP_FLAGS` : OpenMP flags for building FFTW
-- `FFTW_CXX_FLAGS` : FFTW flags
 
 ### Hello World Example
 
