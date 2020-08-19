@@ -92,8 +92,6 @@ This should provide something like the following.
 --         - OpenMP_CXX_LIBRARIES /usr/local/lib/libomp.dylib
 ```
 
-Then use variables provided.
-
 ### BigMac Variables
 
 - `BigMac_MACOS` : macOS version
