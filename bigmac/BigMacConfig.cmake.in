@@ -1,19 +1,26 @@
 message(STATUS "Found BigMac: version @BIGMAC_VERSION@")
 
 # Set CMake compilers
-# set(CMAKE_C_COMPILER /usr/bin/clang)
-# set(CMAKE_CXX_COMPILER /usr/bin/clang)
+set(CMAKE_C_COMPILER /usr/bin/clang)
+set(CMAKE_CXX_COMPILER /usr/bin/clang++)
 
 # set BigMac variables
 EXEC_PROGRAM("sw_vers -productVersion" OUTPUT_VARIABLE BigMac_MACOS)
-EXEC_PROGRAM("xcodebuild -version | grep -m1 -o -E '[0-9]+.[0-9]+'"
+EXEC_PROGRAM("xcodebuild -version | grep -m1 -o -E '\\d+\\.\\d+'"
              OUTPUT_VARIABLE BigMac_XCODE)
+EXEC_PROGRAM("brew --version  | grep -m1 -o -E '\\d+\\.\\d+\\.\\d+'"
+             OUTPUT_VARIABLE BigMac_BREW)
+EXEC_PROGRAM("brew info libomp | grep -m1 -o -E '\\d+\\.\\d+\\.\\d+'"
+             OUTPUT_VARIABLE BigMac_LIBOMP)
 set(BigMac_DARWIN ${CMAKE_SYSTEM_VERSION})
 
+# Report system status
 message(VERBOSE "BigMac Status")
 message(VERBOSE "        - macOS Version: ${BigMac_MACOS}")
 message(VERBOSE "        - Darwin Version: ${BigMac_DARWIN}")
 message(VERBOSE "        - XCode Version: ${BigMac_XCODE}")
+message(VERBOSE "        - Homebrew Version: ${BigMac_BREW}")
+message(VERBOSE "        - libomp Version: ${BigMac_LIBOMP}")
 message(VERBOSE "        - Compiler: ${CMAKE_CXX_COMPILER_ID}")
 message(VERBOSE "        - Compiler Version: ${CMAKE_CXX_COMPILER_VERSION}")
 message(VERBOSE "        - Which CC: ${CMAKE_C_COMPILER}")
