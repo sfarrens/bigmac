@@ -43,7 +43,7 @@ if(NOT BigMac_XCODE STREQUAL @XCODE_LATEST@)
 endif()
 
 # Set Flags to hide warnings
-set(BigMac_NOWARN "-Wno-everything")
+set(BigMac_NOWARN "-Wno-everything -w")
 
 # Enable OpenMP for Clang
 message(STATUS "BigMac -> Setting OpenMP variables for ${CMAKE_CXX_COMPILER_ID}")
