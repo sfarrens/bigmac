@@ -104,11 +104,17 @@ This should provide something like the following.
 
 - `BigMac_CPPFLAGS` : `CPPFLAGS` for external projects (*e.g.* FFTW, NFFT).
 - `BigMac_OPENMP_CFLAGS` : `OPENMP_CFLAGS` for external projects (*e.g.* FFTW, NFFT).
-- `OpenMP_INCLUDE_PATH` : Path to OpenMP headers
-- `OpenMP_LIB_PATH` : Path to OpenMP Libraries
-- `OpenMP_CXX_FLAGS` : OpenMP Flags
-- `OpenMP_CXX_LIB_NAMES` : OpenMP Library Names
-- `OpenMP_CXX_LIBRARIES` : OpenMP Libraries
+- `OpenMP_INCLUDE_PATH` : Path to OpenMP headers.
+- `OpenMP_LIB_PATH` : Path to OpenMP Libraries.
+- `OpenMP_C_FLAGS` : OpenMP compiler flags for C, separated by spaces.
+- `OpenMP_CXX_FLAGS` : OpenMP compiler flags for C++, separated by spaces.
+- `OpenMP_C_LIB_NAMES` : List of libraries for OpenMP programs for C.
+- `OpenMP_CXX_LIB_NAMES` : List of libraries for OpenMP programs for C++.
+- `OpenMP_C_LIBRARIES` : A list of libraries needed to link with OpenMP code written in C.
+- `OpenMP_CXX_LIBRARIES` : A list of libraries needed to link with OpenMP code written in C++.
+- `OpenMP_omp_LIBRARY` : Location of the individual libraries needed for OpenMP support.
+- `OpenMP_C_VERSION` : OpenMP version implemented by the C compiler.
+- `OpenMP_CXX_VERSION` : OpenMP version implemented by the C++ compiler.
 
 ### Hello World Example
 
