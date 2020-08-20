@@ -116,6 +116,10 @@ This should provide something like the following.
 - `OpenMP_C_VERSION` : OpenMP version implemented by the C compiler.
 - `OpenMP_CXX_VERSION` : OpenMP version implemented by the C++ compiler.
 
+### External Project Flags
+- `BigMac_FFTW` : Flags needed to build [FFTW](http://fftw.org/) as an external project.
+- `BigMac_NFFT` : Flags needed to build [NFFT](https://github.com/NFFT/nfft) as an external project.
+
 ### Hello World Example
 
 For the following OpenMP Hello World example.
@@ -142,4 +146,17 @@ find_package(BigMac REQUIRED)
 
 set(CMAKE_CXX_FLAGS ${OpenMP_CXX_FLAGS})
 add_executable(hello_world src/hello_world.cpp)
+```
+
+### FFTW Example
+
+```cmake
+# Download and build FFTW
+ExternalProject_Add(fftw
+    URL               http://www.fftw.org/fftw-3.3.8.tar.gz
+    URL_HASH          8aac833c943d8e90d51b697b27d4384d
+    CONFIGURE_COMMAND ./configure CC=${CMAKE_C_COMPILER} CXX=${CMAKE_CXX_COMPILER} ${BigMac_FFTW}
+    BUILD_COMMAND     make
+    INSTALL_COMMAND   make install
+)
 ```

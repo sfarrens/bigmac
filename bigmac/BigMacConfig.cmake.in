@@ -46,8 +46,6 @@ endif()
 set(BigMac_NOWARN "-Wno-everything -w")
 
 # Enable OpenMP for Clang
-message(STATUS "BigMac -> Setting OpenMP variables for ${CMAKE_CXX_COMPILER_ID}")
-
 set(BigMac_CPPFLAGS "-Xpreprocessor -fopenmp")
 set(BigMac_OPENMP_CFLAGS "-lomp")
 set(OpenMP_INCLUDE_PATH "/usr/local/include")
@@ -65,6 +63,7 @@ set(OpenMP_CXX_VERSION ${BigMac_LIBOMP})
 include_directories(${OpenMP_INCLUDE_PATH})
 link_directories(${OpenMP_LIB_PATH})
 
+message(STATUS "BigMac -> Setting OpenMP variables for ${CMAKE_CXX_COMPILER_ID}")
 message(VERBOSE "        - BigMac_CPPFLAGS ${BigMac_CPPFLAGS}")
 message(VERBOSE "        - BigMac_OPENMP_CFLAGS ${BigMac_OPENMP_CFLAGS}")
 message(VERBOSE "        - OpenMP_INCLUDE_PATH ${OpenMP_INCLUDE_PATH}")
@@ -78,3 +77,18 @@ message(VERBOSE "        - OpenMP_CXX_LIBRARIES ${OpenMP_CXX_LIBRARIES}")
 message(VERBOSE "        - OpenMP_omp_LIBRARY ${OpenMP_omp_LIBRARY}")
 message(VERBOSE "        - OpenMP_C_VERSION ${OpenMP_C_VERSION}")
 message(VERBOSE "        - OpenMP_CXX_VERSION ${OpenMP_CXX_VERSION}")
+
+# Set flags for FFTW
+set(BigMac_FFTW LDFLAFS=-L${OpenMP_LIB_PATH}
+    LIBS=${BigMac_OPENMP_CFLAGS}
+    "CPPFLAGS=${BigMac_CPPFLAGS} ${BigMac_NOWARN}"
+    OPENMP_CFLAGS=${BigMac_OPENMP_CFLAGS})
+
+message(STATUS "BigMac -> Setting FFTW flags")
+message(VERBOSE "        - BigMac_FFTW ${BigMac_FFTW}")
+
+# Set flags for NFFT
+set(BigMac_NFFT OPENMP_CFLAGS=${BigMac_OPENMP_CFLAGS})
+
+message(STATUS "BigMac -> Setting NFFT flags")
+message(VERBOSE "        - BigMac_NFFT ${BigMac_NFFT}")
