@@ -1,0 +1,94 @@
+message(STATUS "Found BigMac: version @BIGMAC_VERSION@")
+
+# Set CMake compilers
+set(CMAKE_C_COMPILER /usr/bin/clang)
+set(CMAKE_CXX_COMPILER /usr/bin/clang++)
+
+# set BigMac variables
+EXEC_PROGRAM("sw_vers -productVersion" OUTPUT_VARIABLE BigMac_MACOS)
+EXEC_PROGRAM("xcodebuild -version | grep -m1 -o -E '\\d+\\.\\d+'"
+             OUTPUT_VARIABLE BigMac_XCODE)
+EXEC_PROGRAM("brew --version  | grep -m1 -o -E '\\d+\\.\\d+\\.\\d+'"
+             OUTPUT_VARIABLE BigMac_BREW)
+EXEC_PROGRAM("brew info libomp | grep -m1 -o -E '\\d+\\.\\d+\\.\\d+'"
+             OUTPUT_VARIABLE BigMac_LIBOMP)
+set(BigMac_DARWIN ${CMAKE_SYSTEM_VERSION})
+
+# Report system status
+message(VERBOSE "BigMac Status")
+message(VERBOSE "        - macOS Version: ${BigMac_MACOS}")
+message(VERBOSE "        - Darwin Version: ${BigMac_DARWIN}")
+message(VERBOSE "        - XCode Version: ${BigMac_XCODE}")
+message(VERBOSE "        - Homebrew Version: ${BigMac_BREW}")
+message(VERBOSE "        - libomp Version: ${BigMac_LIBOMP}")
+message(VERBOSE "        - Compiler: ${CMAKE_CXX_COMPILER_ID}")
+message(VERBOSE "        - Compiler Version: ${CMAKE_CXX_COMPILER_VERSION}")
+message(VERBOSE "        - Which CC: ${CMAKE_C_COMPILER}")
+message(VERBOSE "        - Which CXX: ${CMAKE_CXX_COMPILER}")
+
+set(OUTDATED "You are not using the latest version of")
+set(SUGGEST "You can continue your build, but if you experience problems \
+    you may want to consider updating.")
+
+if(NOT BigMac_MACOS STREQUAL @MACOS_LATEST@)
+  message(WARNING "${OUTDATED} macOS (@MACOS_LATEST@). ${SUGGEST}")
+endif()
+
+if(NOT BigMac_DARWIN STREQUAL @DARWIN_LATEST@)
+  message(WARNING "${OUTDATED} Darwin (@DARWIN_LATEST@). ${SUGGEST}")
+endif()
+
+if(NOT BigMac_XCODE STREQUAL @XCODE_LATEST@)
+  message(WARNING "${OUTDATED} XCode (@XCODE_LATEST@). ${SUGGEST}")
+endif()
+
+# Set Flags to hide warnings
+set(BigMac_NOWARN "-Wno-everything -w")
+
+# Enable OpenMP for Clang
+set(BigMac_CPPFLAGS "-Xpreprocessor -fopenmp")
+set(BigMac_OPENMP_CFLAGS "-lomp")
+set(OpenMP_INCLUDE_PATH "/usr/local/include")
+set(OpenMP_LIB_PATH "/usr/local/lib")
+set(OpenMP_C_FLAGS "${BigMac_CPPFLAGS} ${BigMac_OPENMP_CFLAGS}")
+set(OpenMP_CXX_FLAGS "${BigMac_CPPFLAGS} ${BigMac_OPENMP_CFLAGS}")
+set(OpenMP_C_LIB_NAMES "omp")
+set(OpenMP_CXX_LIB_NAMES "omp")
+set(OpenMP_C_LIBRARIES "${OpenMP_LIB_PATH}/libomp.dylib")
+set(OpenMP_CXX_LIBRARIES "${OpenMP_LIB_PATH}/libomp.dylib")
+set(OpenMP_omp_LIBRARY "${OpenMP_LIB_PATH}/libomp.dylib")
+set(OpenMP_C_VERSION ${BigMac_LIBOMP})
+set(OpenMP_CXX_VERSION ${BigMac_LIBOMP})
+
+include_directories(${OpenMP_INCLUDE_PATH})
+link_directories(${OpenMP_LIB_PATH})
+
+message(STATUS "BigMac -> Setting OpenMP variables for ${CMAKE_CXX_COMPILER_ID}")
+message(VERBOSE "        - BigMac_CPPFLAGS ${BigMac_CPPFLAGS}")
+message(VERBOSE "        - BigMac_OPENMP_CFLAGS ${BigMac_OPENMP_CFLAGS}")
+message(VERBOSE "        - OpenMP_INCLUDE_PATH ${OpenMP_INCLUDE_PATH}")
+message(VERBOSE "        - OpenMP_LIB_PATH ${OpenMP_LIB_PATH}")
+message(VERBOSE "        - OpenMP_C_FLAGS ${OpenMP_C_FLAGS}")
+message(VERBOSE "        - OpenMP_CXX_FLAGS ${OpenMP_CXX_FLAGS}")
+message(VERBOSE "        - OpenMP_C_LIB_NAMES ${OpenMP_C_LIB_NAMES}")
+message(VERBOSE "        - OpenMP_CXX_LIB_NAMES ${OpenMP_CXX_LIB_NAMES}")
+message(VERBOSE "        - OpenMP_C_LIBRARIES ${OpenMP_C_LIBRARIES}")
+message(VERBOSE "        - OpenMP_CXX_LIBRARIES ${OpenMP_CXX_LIBRARIES}")
+message(VERBOSE "        - OpenMP_omp_LIBRARY ${OpenMP_omp_LIBRARY}")
+message(VERBOSE "        - OpenMP_C_VERSION ${OpenMP_C_VERSION}")
+message(VERBOSE "        - OpenMP_CXX_VERSION ${OpenMP_CXX_VERSION}")
+
+# Set flags for FFTW
+set(BigMac_FFTW LDFLAFS=-L${OpenMP_LIB_PATH}
+    LIBS=${BigMac_OPENMP_CFLAGS}
+    "CPPFLAGS=${BigMac_CPPFLAGS} ${BigMac_NOWARN}"
+    OPENMP_CFLAGS=${BigMac_OPENMP_CFLAGS})
+
+message(STATUS "BigMac -> Setting FFTW flags")
+message(VERBOSE "        - BigMac_FFTW ${BigMac_FFTW}")
+
+# Set flags for NFFT
+set(BigMac_NFFT OPENMP_CFLAGS=${BigMac_OPENMP_CFLAGS})
+
+message(STATUS "BigMac -> Setting NFFT flags")
+message(VERBOSE "        - BigMac_NFFT ${BigMac_NFFT}")
