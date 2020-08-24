@@ -1,3 +1,5 @@
+[![macos-mojave](https://img.shields.io/badge/macos-mojave-brightgreen.svg)](https://en.wikipedia.org/wiki/MacOS_Mojave)
+[![macos-catalina](https://img.shields.io/badge/macos-catalina-brightgreen.svg)](https://en.wikipedia.org/wiki/MacOS_Catalina)
 [![License: MIT](https://img.shields.io/github/license/sfarrens/bigmac)](https://github.com/sfarrens/bigmac/blob/master/LICENSE)
 
 <img src="images/bigmac_logo_red.png" height=250>
