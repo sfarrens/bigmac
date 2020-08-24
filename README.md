@@ -1,3 +1,5 @@
+[![License: MIT](https://img.shields.io/github/license/sfarrens/bigmac)](https://github.com/sfarrens/bigmac/blob/master/LICENSE)
+
 <img src="images/bigmac_logo_red.png" height=250>
 
 # BigMac
