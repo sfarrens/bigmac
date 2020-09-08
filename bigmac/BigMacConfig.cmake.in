@@ -30,15 +30,15 @@ set(OUTDATED "You are not using the latest version of")
 set(SUGGEST "You can continue your build, but if you experience problems \
     you may want to consider updating.")
 
-if(NOT BigMac_MACOS STREQUAL @MACOS_LATEST@)
+if(BigMac_MACOS VERSION_LESS @MACOS_LATEST@)
   message(WARNING "${OUTDATED} macOS (@MACOS_LATEST@). ${SUGGEST}")
 endif()
 
-if(NOT BigMac_DARWIN STREQUAL @DARWIN_LATEST@)
+if(BigMac_DARWIN VERSION_LESS @DARWIN_LATEST@)
   message(WARNING "${OUTDATED} Darwin (@DARWIN_LATEST@). ${SUGGEST}")
 endif()
 
-if(NOT BigMac_XCODE STREQUAL @XCODE_LATEST@)
+if(BigMac_XCODE VERSION_LESS @XCODE_LATEST@)
   message(WARNING "${OUTDATED} XCode (@XCODE_LATEST@). ${SUGGEST}")
 endif()
 

@@ -4,14 +4,14 @@ project(bigmac)
 # Set BigMac Version
 set(BIGMAC_MAJOR_VERSION 0)
 set(BIGMAC_MINOR_VERSION 0)
-set(BIGMAC_PATCH_VERSION 1)
+set(BIGMAC_PATCH_VERSION 2)
 set(BIGMAC_VERSION
   ${BIGMAC_MAJOR_VERSION}.${BIGMAC_MINOR_VERSION}.${BIGMAC_PATCH_VERSION})
 
 # Set latest version of macOS system
 set(MACOS_LATEST "10.15.6")
 set(DARWIN_LATEST "19.6.0")
-set(XCODE_LATEST "11.6")
+set(XCODE_LATEST "11.7")
 
 export(PACKAGE bigmac)
 
@@ -33,3 +33,6 @@ list(TRANSFORM BIGMAC_TARGETS PREPEND "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}
 
 # Install CMake configuration files
 install(FILES ${BIGMAC_TARGETS} DESTINATION ${INSTALL_CMAKE_DIR})
+
+# Create dummy file so that CMake can find FFTW
+file(TOUCH "/usr/local/lib/cmake/fftw3/FFTW3LibraryDepends.cmake")
