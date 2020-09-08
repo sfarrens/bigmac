@@ -35,4 +35,8 @@ list(TRANSFORM BIGMAC_TARGETS PREPEND "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}
 install(FILES ${BIGMAC_TARGETS} DESTINATION ${INSTALL_CMAKE_DIR})
 
 # Create dummy file so that CMake can find FFTW
-file(TOUCH "/usr/local/lib/cmake/fftw3/FFTW3LibraryDepends.cmake")
+set(fftw_depends "/usr/local/lib/cmake/fftw3/FFTW3LibraryDepends.cmake")
+if(NOT EXISTS ${fftw_depends})
+  file(WRITE ${fftw_depends})
+  message(STATUS "Writing file ${fftw_depends}")
+endif()
