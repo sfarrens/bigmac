@@ -4,7 +4,7 @@ project(bigmac)
 # Set BigMac Version
 set(BIGMAC_MAJOR_VERSION 0)
 set(BIGMAC_MINOR_VERSION 0)
-set(BIGMAC_PATCH_VERSION 1)
+set(BIGMAC_PATCH_VERSION 2)
 set(BIGMAC_VERSION
   ${BIGMAC_MAJOR_VERSION}.${BIGMAC_MINOR_VERSION}.${BIGMAC_PATCH_VERSION})
 
@@ -35,4 +35,8 @@ list(TRANSFORM BIGMAC_TARGETS PREPEND "${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}
 install(FILES ${BIGMAC_TARGETS} DESTINATION ${INSTALL_CMAKE_DIR})
 
 # Create dummy file so that CMake can find FFTW
-file(TOUCH "/usr/local/lib/cmake/fftw3/FFTW3LibraryDepends.cmake")
+set(fftw_depends "/usr/local/lib/cmake/fftw3/FFTW3LibraryDepends.cmake")
+if(NOT EXISTS ${fftw_depends})
+  file(WRITE ${fftw_depends})
+  message(STATUS "Writing file ${fftw_depends}")
+endif()
