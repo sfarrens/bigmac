@@ -50,10 +50,16 @@ endif()
 set(BigMac_NOWARN "-Wno-everything -w")
 
 # Enable OpenMP for Clang
-set(BigMac_CPPFLAGS "-Xpreprocessor -fopenmp")
+if(BigMac_LIBOMP VERSION_LESS "15.0.0")
+  set(BigMac_CPPFLAGS "-Xpreprocessor -fopenmp")
+  set(OpenMP_LIB_PATH "/usr/local/lib")
+  set(OpenMP_INCLUDE_PATH "/usr/local/include")
+else()
+  set(BigMac_CPPFLAGS "-Xclang -fopenmp")
+  set(OpenMP_LIB_PATH "/usr/local/opt/libomp/lib")
+  set(OpenMP_INCLUDE_PATH "/usr/local/opt/libomp/include")
+endif()
 set(BigMac_OPENMP_CFLAGS "-lomp")
-set(OpenMP_INCLUDE_PATH "/usr/local/include")
-set(OpenMP_LIB_PATH "/usr/local/lib")
 set(OpenMP_C_FLAGS "${BigMac_CPPFLAGS} ${BigMac_OPENMP_CFLAGS}")
 set(OpenMP_CXX_FLAGS "${BigMac_CPPFLAGS} ${BigMac_OPENMP_CFLAGS}")
 set(OpenMP_C_LIB_NAMES "omp")
@@ -88,7 +94,7 @@ set(BigMac_FFTW LDFLAFS=-L${OpenMP_LIB_PATH}
     "CPPFLAGS=${BigMac_CPPFLAGS} ${BigMac_NOWARN}"
     OPENMP_CFLAGS=${BigMac_OPENMP_CFLAGS})
 
-# Add FFTW file need for CMake find_package
+# Add FFTW file needed for CMake find_package
 option(BigMac_FFTW_CMake "Get BigMac to write missing FFTW CMake file" OFF)
 if(BigMac_FFTW_CMake)
   set(fftw_depends "/usr/local/lib/cmake/fftw3/FFTW3LibraryDepends.cmake")
@@ -98,12 +104,12 @@ if(BigMac_FFTW_CMake)
   endif()
 endif()
 
-message(STATUS "BigMac -> Setting FFTW flags")
+message(VERBOSE "BigMac -> Setting FFTW flags")
 message(VERBOSE "        - BigMac_FFTW ${BigMac_FFTW}")
 message(VERBOSE "        - BigMac_FFTW_CMake ${BigMac_FFTW_CMake}")
 
 # Set flags for NFFT
 set(BigMac_NFFT OPENMP_CFLAGS=${BigMac_OPENMP_CFLAGS})
 
-message(STATUS "BigMac -> Setting NFFT flags")
+message(VERBOSE "BigMac -> Setting NFFT flags")
 message(VERBOSE "        - BigMac_NFFT ${BigMac_NFFT}")
