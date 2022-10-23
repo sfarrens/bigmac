@@ -4,9 +4,10 @@ project(bigmac)
 # Set BigMac Version
 set(BIGMAC_MAJOR_VERSION 0)
 set(BIGMAC_MINOR_VERSION 0)
-set(BIGMAC_PATCH_VERSION 5)
+set(BIGMAC_PATCH_VERSION 6)
 set(BIGMAC_VERSION
-  ${BIGMAC_MAJOR_VERSION}.${BIGMAC_MINOR_VERSION}.${BIGMAC_PATCH_VERSION})
+  ${BIGMAC_MAJOR_VERSION}.${BIGMAC_MINOR_VERSION}.${BIGMAC_PATCH_VERSION}
+)
 
 # Set latest version of macOS system
 set(MACOS_LATEST "12.6")
@@ -16,7 +17,8 @@ set(XCODE_LATEST "14.1")
 export(PACKAGE bigmac)
 
 # Set CMake install location
-set(INSTALL_CMAKE_DIR "lib/cmake/BigMac")
+EXEC_PROGRAM("echo $(dirname $(dirname $(which brew)))" OUTPUT_VARIABLE Homebrew_PATH)
+set(INSTALL_CMAKE_DIR "${Homebrew_PATH}/lib/cmake/BigMac")
 message(STATUS "CMake configuration file install location: " ${INSTALL_CMAKE_DIR})
 
 # Define targets
