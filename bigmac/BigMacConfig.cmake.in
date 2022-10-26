@@ -10,17 +10,32 @@ set(CMAKE_CXX_COMPILER /usr/bin/clang++)
 
 # set BigMac variables
 EXEC_PROGRAM("sw_vers -productVersion" OUTPUT_VARIABLE BigMac_MACOS)
-EXEC_PROGRAM("xcodebuild -version | grep -m1 -o -E '\\d+\\.\\d+'"
-             OUTPUT_VARIABLE BigMac_XCODE)
-EXEC_PROGRAM("brew --version  | grep -m1 -o -E '\\d+\\.\\d+\\.\\d+'"
-             OUTPUT_VARIABLE BigMac_BREW)
-EXEC_PROGRAM("brew info libomp | grep -m1 -o -E '\\d+\\.\\d+\\.\\d+'"
-             OUTPUT_VARIABLE BigMac_LIBOMP)
+EXEC_PROGRAM(
+  "sysctl -a | grep brand | cut -f2 -d : | sed -e 's/^[ \t]*//'"
+  OUTPUT_VARIABLE BigMac_CHIP
+)
+EXEC_PROGRAM(
+  "xcodebuild -version | grep -m1 -o -E '\\d+\\.\\d+'"
+  OUTPUT_VARIABLE BigMac_XCODE
+)
+EXEC_PROGRAM(
+  "brew --version  | grep -m1 -o -E '\\d+\\.\\d+\\.\\d+'"
+  OUTPUT_VARIABLE BigMac_BREW
+)
+EXEC_PROGRAM(
+  "brew info libomp | grep -m1 -o -E '\\d+\\.\\d+\\.\\d+'"
+  OUTPUT_VARIABLE BigMac_LIBOMP
+)
+EXEC_PROGRAM(
+  "echo $(dirname $(dirname $(which brew)))"
+  OUTPUT_VARIABLE Homebrew_PATH
+)
 set(BigMac_DARWIN ${CMAKE_SYSTEM_VERSION})
 
 # Report system status
 message(VERBOSE "BigMac Status")
 message(VERBOSE "        - macOS Version: ${BigMac_MACOS}")
+message(VERBOSE "        - Chip: ${BigMac_CHIP}")
 message(VERBOSE "        - Darwin Version: ${BigMac_DARWIN}")
 message(VERBOSE "        - XCode Version: ${BigMac_XCODE}")
 message(VERBOSE "        - Homebrew Version: ${BigMac_BREW}")
@@ -52,12 +67,12 @@ set(BigMac_NOWARN "-Wno-everything -w")
 # Enable OpenMP for Clang
 if(BigMac_LIBOMP VERSION_LESS "15.0.0")
   set(BigMac_CPPFLAGS "-Xpreprocessor -fopenmp")
-  set(OpenMP_LIB_PATH "/usr/local/lib")
-  set(OpenMP_INCLUDE_PATH "/usr/local/include")
+  set(OpenMP_LIB_PATH "${Homebrew_PATH}/lib")
+  set(OpenMP_INCLUDE_PATH "${Homebrew_PATH}/include")
 else()
   set(BigMac_CPPFLAGS "-Xclang -fopenmp")
-  set(OpenMP_LIB_PATH "/usr/local/opt/libomp/lib")
-  set(OpenMP_INCLUDE_PATH "/usr/local/opt/libomp/include")
+  set(OpenMP_LIB_PATH "${Homebrew_PATH}/opt/libomp/lib")
+  set(OpenMP_INCLUDE_PATH "${Homebrew_PATH}/opt/libomp/include")
 endif()
 set(BigMac_OPENMP_CFLAGS "-lomp")
 set(OpenMP_C_FLAGS "${BigMac_CPPFLAGS} ${BigMac_OPENMP_CFLAGS}")
@@ -97,7 +112,7 @@ set(BigMac_FFTW LDFLAFS=-L${OpenMP_LIB_PATH}
 # Add FFTW file needed for CMake find_package
 option(BigMac_FFTW_CMake "Get BigMac to write missing FFTW CMake file" OFF)
 if(BigMac_FFTW_CMake)
-  set(fftw_depends "/usr/local/lib/cmake/fftw3/FFTW3LibraryDepends.cmake")
+  set(fftw_depends "${Homebrew_PATH}/lib/cmake/fftw3/FFTW3LibraryDepends.cmake")
   if(NOT EXISTS ${fftw_depends})
     file(WRITE ${fftw_depends})
     message(STATUS "Writing ${fftw_depends}")

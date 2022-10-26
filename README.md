@@ -80,28 +80,36 @@ This should provide something like the following.
 
 ```
 -- BigMac Status
---         - macOS Version: 10.15.6
---         - Darwin Version: 19.6.0
---         - XCode Version: 11.6
---         - Homebrew Version: 2.4.12
---         - libomp Version: 10.0.1
---         - Compiler: AppleClang
---         - Compiler Version: 11.0.3.11030032
+--         - macOS Version: 12.6
+--         - Chip: Apple M1 Max
+--         - Darwin Version: 21.6.0
+--         - XCode Version: 14.0
+--         - Homebrew Version: 3.6.6
+--         - libomp Version: 15.0.3
+--         - Compiler: Clang
+--         - Compiler Version: 14.0.0.14000029
 --         - Which CC: /usr/bin/clang
 --         - Which CXX: /usr/bin/clang++
--- BigMac -> Setting OpenMP variables for AppleClang
---         - BigMac_CPPFLAGS -Xpreprocessor -fopenmp
+-- BigMac -> Setting OpenMP variables for Clang
+--         - BigMac_CPPFLAGS -Xclang -fopenmp
 --         - BigMac_OPENMP_CFLAGS -lomp
---         - OpenMP_INCLUDE_PATH /usr/local/include
---         - OpenMP_LIB_PATH /usr/local/lib
---         - OpenMP_CXX_FLAGS -Xpreprocessor -fopenmp -lomp
+--         - OpenMP_INCLUDE_PATH /opt/homebrew/opt/libomp/include
+--         - OpenMP_LIB_PATH /opt/homebrew/opt/libomp/lib
+--         - OpenMP_C_FLAGS -Xclang -fopenmp -lomp
+--         - OpenMP_CXX_FLAGS -Xclang -fopenmp -lomp
+--         - OpenMP_C_LIB_NAMES omp
 --         - OpenMP_CXX_LIB_NAMES omp
---         - OpenMP_CXX_LIBRARIES /usr/local/lib/libomp.dylib
+--         - OpenMP_C_LIBRARIES /opt/homebrew/opt/libomp/lib/libomp.dylib
+--         - OpenMP_CXX_LIBRARIES /opt/homebrew/opt/libomp/lib/libomp.dylib
+--         - OpenMP_omp_LIBRARY /opt/homebrew/opt/libomp/lib/libomp.dylib
+--         - OpenMP_C_VERSION 15.0.3
+--         - OpenMP_CXX_VERSION 15.0.3
 ```
 
 ### BigMac Variables
 
 - `BigMac_MACOS` : macOS version
+- `BigMac_CHIP` : Apple chip type
 - `BigMac_DARWIN` : Darwin version
 - `BigMac_XCODE` : XCode version
 - `BigMac_BREW` : Homebrew version
