@@ -17,9 +17,8 @@ set(XCODE_LATEST "14.1")
 export(PACKAGE bigmac)
 
 # Set CMake install location
-EXEC_PROGRAM("echo $(dirname $(dirname $(which brew)))" OUTPUT_VARIABLE Homebrew_PATH)
-set(INSTALL_CMAKE_DIR "${Homebrew_PATH}/lib/cmake/BigMac")
-message(STATUS "CMake configuration file install location: " ${INSTALL_CMAKE_DIR})
+set(INSTALL_CMAKE_DIR "lib/cmake/BigMac")
+message(STATUS "CMake configuration file install location: ${CMAKE_INSTALL_PREFIX}/${INSTALL_CMAKE_DIR}")
 
 # Define targets
 set(BIGMAC_TARGETS BigMacConfig BigMacConfigVersion)
