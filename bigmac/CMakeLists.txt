@@ -1,18 +1,18 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.5)
 project(bigmac)
 
 # Set BigMac Version
 set(BIGMAC_MAJOR_VERSION 0)
 set(BIGMAC_MINOR_VERSION 0)
-set(BIGMAC_PATCH_VERSION 6)
+set(BIGMAC_PATCH_VERSION 7)
 set(BIGMAC_VERSION
   ${BIGMAC_MAJOR_VERSION}.${BIGMAC_MINOR_VERSION}.${BIGMAC_PATCH_VERSION}
 )
 
 # Set latest version of macOS system
-set(MACOS_LATEST "12.6")
-set(DARWIN_LATEST "12.5.0")
-set(XCODE_LATEST "14.1")
+set(MACOS_LATEST "15.4")
+set(DARWIN_LATEST "24.4")
+set(XCODE_LATEST "16.3")
 
 export(PACKAGE bigmac)
 
